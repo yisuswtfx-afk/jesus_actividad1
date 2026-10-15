@@ -1,0 +1,58 @@
+taller = []
+
+while True:
+    print("\n1. Registrar vehículo")
+    print("2. Registrar salida")
+    print("3. Reporte de reparados")
+    print("4. Reporte de todos")
+    print("5. Salir")
+
+    op = input("Opción: ")
+
+    if op == "1":
+        if len(taller) >= 30:
+            print("Taller lleno")
+            continue
+
+        placa = input("Placa: ").upper()
+        if any(v[0] == placa for v in taller):
+            print("Placa ya registrada")
+            continue
+
+        nombre = input("Propietario: ")
+        celular = input("Celular: ")
+        ingreso = int(input("Día de ingreso: "))
+        taller.append([placa, nombre, celular, ingreso, None, None])
+
+    elif op == "2":
+        placa = input("Placa: ").upper()
+        for v in taller:
+            if v[0] == placa and v[4] is None:
+                salida = int(input("Día de salida: "))
+                if v[3] <= salida <= 31:
+                    v[4] = salida
+                    v[5] = salida - v[3]
+                    print("Días de reparación:", v[5])
+                else:
+                    print("Día inválido")
+                break
+        else:
+            print("Vehículo no encontrado o ya entregado")
+
+    elif op == "3":
+        terminados = [v for v in taller if v[4] is not None]
+        for v in terminados:
+            print(v[0], "- Días:", v[5])
+        print("Total terminados:", len(terminados))
+
+    elif op == "4":
+        for v in taller:
+            print("Placa:", v[0], "| Propietario:", v[1],
+                  "| Celular:", v[2])
+        print("Total registrados:", len(taller))
+
+    elif op == "5":
+        break
+
+    else:
+        print("Opción inválida")
